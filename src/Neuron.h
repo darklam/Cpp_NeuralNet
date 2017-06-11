@@ -2,17 +2,20 @@
 #define NEURON_H
 
 #include "Functions.h"
+#include <memory>
 
 class Neuron{
 private:
   double bias, wBias; //The bias and the weight of the bias
   int inputs; //The amount of inputs the neuron takes
-  double *weights; //The weights of the neuron for each input
-  Functions f;
+  std::unique_ptr<double[]> weights; //The weights of the neuron for each input
+  Functions f;  //The object with the mathematical functions used
 
 public:
-  Neuron(int);
-  double feedNeuron(double *);
+  Neuron(int);  //The constructor that takes the inputs as an argument
+  double feedNeuron(double *);  //Returns the result of the neuron
+  //The training function. It takes the expected result and the inputs given and
+  //it minimizes the error function.
   void train(double, double *);
 
 };

@@ -3,6 +3,7 @@
 #include <memory>
 
 Neuron::Neuron(int inputs){
+  //Initializing all the values to random
   RandomGen r;
   this->inputs = inputs;
   this->bias = r.randomDouble();

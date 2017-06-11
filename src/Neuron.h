@@ -9,7 +9,6 @@ private:
   double bias, wBias; //The bias and the weight of the bias
   int inputs; //The amount of inputs the neuron takes
   std::unique_ptr<double[]> weights; //The weights of the neuron for each input
-  Functions f;  //The object with the mathematical functions used
 
 public:
   Neuron(int);  //The constructor that takes the inputs as an argument

@@ -13,3 +13,13 @@ Neuron::Neuron(int inputs){
     this->weights[i] = r.randomDouble();
   }
 }
+
+double Neuron::feedNeuron(double *in){
+  double sum = 0.0;
+  for (int i = 0; i < this->inputs){
+    sum += this->weights[i] * in[i];
+  }
+  sum += bias * wBias;
+  Functions f;
+  return f.sigmoid(sum);
+}

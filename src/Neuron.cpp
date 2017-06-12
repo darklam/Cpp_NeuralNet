@@ -16,7 +16,7 @@ Neuron::Neuron(int inputs){
 
 double Neuron::feedNeuron(double *in){
   double sum = 0.0;
-  for (int i = 0; i < this->inputs){
+  for (int i = 0; i < this->inputs; i++){
     sum += this->weights[i] * in[i];
   }
   sum += bias * wBias;

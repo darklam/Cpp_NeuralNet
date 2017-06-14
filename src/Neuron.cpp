@@ -3,7 +3,7 @@
 #include <memory>
 
 Neuron::Neuron(int inputs){
-  //Initializing all the values to random
+  // Initializing all the values to random
   RandomGen r;
   this->inputs = inputs;
   this->bias = r.randomDouble();
@@ -14,12 +14,12 @@ Neuron::Neuron(int inputs){
   }
 }
 
-double Neuron::feedNeuron(double *in){
-  double sum = 0.0;
-  for (int i = 0; i < this->inputs; i++){
-    sum += this->weights[i] * in[i];
+double Neuron::feedNeuron(double *in){  // Feeds the inputs to the neuron
+  double sum = 0.0;                     // Initializing the sum
+  for (int i = 0; i < this->inputs; i++){ 
+    sum += this->weights[i] * in[i];    // Producing the weighted sum
   }
-  sum += bias * wBias;
+  sum += bias * wBias;                  // Adding the bias to the sum
   Functions f;
-  return f.sigmoid(sum);
+  return f.sigmoid(sum);                // Returning the output between 0 and 1 using the sigmoid
 }

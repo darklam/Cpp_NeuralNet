@@ -8,6 +8,7 @@ private:
   double bias, wBias; // The bias and the weight of the bias
   int inputs; // The amount of inputs the neuron takes
   double *weights; // The weights of the neuron for each input
+  double learningConstant; // Defines how fast or slow the network will train
 
 public:
   Neuron(int);  // The constructor that takes the inputs as an argument

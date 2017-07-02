@@ -1,0 +1,7 @@
+CPPFILES=Functions.cpp Network.cpp Neuron.cpp RandomGen.cpp main.cpp
+HFILES=Functions.h Network.h Neuron.h Ran
+
+CXX=g++
+
+all: Functions.o Network.o Neuron.o RandomGen.o main.o
+	$(CXX) main.o Functions.o

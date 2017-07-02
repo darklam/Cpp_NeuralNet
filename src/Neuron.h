@@ -16,7 +16,7 @@ public:
   double feedNeuron(double *);  // Returns the result of the neuron
   // The training function. It takes the expected result and the inputs given and
   // it minimizes the error function.
-  void train(double, double *);
+  void train(double *, double);
 
 };
 

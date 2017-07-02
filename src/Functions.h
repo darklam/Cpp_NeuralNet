@@ -4,8 +4,9 @@
 class Functions{  // A class for the mathematical functions used
 public:
   double sigmoid(double);  // The sigmoid function
-  double quadraticCost(double *, double *, int);  // The quadratic cost function  
+  double quadraticCost(double *, double *, int);  // The quadratic cost function
   double sigmoidDerivative(double);   // The sigmoid function derivative
+  double networkError(double *, double *, int); //Calculates the error of the network
 };
 
 #endif

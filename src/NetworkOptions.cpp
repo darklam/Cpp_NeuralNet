@@ -37,7 +37,7 @@ NetworkOptions::NetworkOptions(int inputSize, int outputSize){
   this->outputSize = outputSize;
   this->hiddenLength = new int[this->hiddenCount];
   for(int i = 0; i < this->hiddenCount; i++){
-    this->hiddenLength[i] = ceil(inputSize * 10.0 / (double) i);
+    this->hiddenLength[i] = ceil(inputSize * 10.0 / (double) (i + 1));
   }
 }
 

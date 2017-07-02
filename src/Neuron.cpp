@@ -19,7 +19,11 @@ Neuron::~Neuron(){
   delete[] this->weights;
 }
 
-double Neuron::feedNeuron(double *in){  // Feeds the inputs to the neuron
+Neuron::Neuron(){
+  this->weights = nullptr;
+}
+
+double Neuron::feed(double *in){  // Feeds the inputs to the neuron
   double sum = 0.0;                     // Initializing the sum
   for (int i = 0; i < this->inputs; i++){
     sum += this->weights[i] * in[i];    // Producing the weighted sum

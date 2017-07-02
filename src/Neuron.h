@@ -12,8 +12,9 @@ private:
 
 public:
   Neuron(int);  // The constructor that takes the inputs as an argument
+  Neuron();
   ~Neuron();    // The object destructor
-  double feedNeuron(double *);  // Returns the result of the neuron
+  double feed(double *);  // Returns the result of the neuron
   // The training function. It takes the expected result and the inputs given and
   // it minimizes the error function.
   void train(double *, double);

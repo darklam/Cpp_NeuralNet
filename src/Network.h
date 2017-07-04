@@ -3,21 +3,21 @@
 
 #include "NetworkOptions.h"
 #include "Layer.h"
+#include <vector>
 
 class Network{
 public:
   // Initializes the network
   Network(NetworkOptions);
-  Network();
   ~Network();
   // Takes the input values to the network and returns the outputs
-  double *feed(double *);
+  std::vector<double> feed(std::vector<double>);
 
 private:
   // The network layers
   Layer *input;
   Layer *output;
-  Layer *hidden;
+  std::vector<Layer *> hidden;
   // The settings of the network
   NetworkOptions *opts;
 };

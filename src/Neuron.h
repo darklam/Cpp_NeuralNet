@@ -7,17 +7,16 @@ class Neuron{
 private:
   double bias, wBias; // The bias and the weight of the bias
   int inputs; // The amount of inputs the neuron takes
-  double *weights; // The weights of the neuron for each input
+  std::vector<double> weights; // The weights of the neuron for each input
   double learningConstant; // Defines how fast or slow the network will train
 
 public:
   Neuron(int);  // The constructor that takes the inputs as an argument
-  Neuron();
   ~Neuron();    // The object destructor
-  double feed(double *);  // Returns the result of the neuron
+  double feed(std::vector<double>);  // Returns the result of the neuron
   // The training function. It takes the expected result and the inputs given and
   // it minimizes the error function.
-  void train(double *, double);
+  void train(std::vector<double>, double);
 
 };
 

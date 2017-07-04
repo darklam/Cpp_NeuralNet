@@ -1,28 +1,26 @@
 #include "Layer.h"
+#include <vector>
 
 Layer::Layer(int neurons, int inputs, bool isInput){
   this->count = neurons;
   this->inputs = inputs;
   this->isInput = isInput;
-  this->neurons = new Neuron[neurons];
   for(int i = 0; i < neurons; i++){
-    this->neurons[i] = Neuron(inputs);
+    this->neurons.push_back(new Neuron(inputs));
   }
 }
 
-Layer::Layer(){
-  this->neurons = nullptr;
-}
-
-double *Layer::feed(double *in){
-  double *out = new double[this->count];
+std::vector<double> Layer::feed(std::vector<double> in){
+  std::vector<double> out;
   if(!this->isInput){
     for(int i = 0; i < this->count; i++){
-      out[i] = this->neurons[i].feed(in);
+      out.push_back(this->neurons[i]->feed(in));
     }
   }else{
     for(int i = 0; i < this->count; i++){
-      out[i] = this->neurons[i].feed(&in[i]);
+      std::vector<double> tmp;
+      tmp.push_back(in[i]);
+      out.push_back(this->neurons[i]->feed(tmp));
     }
   }
   return out;
@@ -33,5 +31,7 @@ void Layer::train(){
 }
 
 Layer::~Layer(){
-  delete[] this->neurons;
+  for(int i = 0; i < this->neurons.size(); i++){
+    delete this->neurons[i];
+  }
 }

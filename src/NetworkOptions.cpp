@@ -1,14 +1,14 @@
 #include "NetworkOptions.h"
 #include <cmath>
+#include <vector>
 
-NetworkOptions::NetworkOptions(int inputSize, int outputSize, int hiddenCount, int *lengths){
+NetworkOptions::NetworkOptions(int inputSize, int outputSize, int hiddenCount, std::vector<int> lengths){
   this->hiddenCount = hiddenCount;
   this->inputSize = inputSize;
   this->normalizationFunction = "minmax"; // The default function
   this->outputSize = outputSize;
-  this->hiddenLength = new int[hiddenCount];
   for(int i = 0; i < hiddenCount; i++){
-    this->hiddenLength[i] = lengths[i];
+    this->hiddenLength.push_back(lengths[i]);
   }
 }
 
@@ -18,10 +18,9 @@ NetworkOptions::NetworkOptions(NetworkOptions *opts){
   this->outputSize = opts->outputSize;
   this->min = opts->min;
   this->max = opts->max;
-  this->hiddenLength = new int[this->hiddenCount];
   this->normalizationFunction = opts->normalizationFunction;
   for(int i = 0; i < this->hiddenCount; i++){
-    this->hiddenLength[i] = opts->hiddenLength[i];
+    this->hiddenLength.push_back(opts->hiddenLength[i]);
   }
 }
 
@@ -35,12 +34,10 @@ NetworkOptions::NetworkOptions(int inputSize, int outputSize){
   this->inputSize = inputSize;
   this->normalizationFunction = "minmax"; // The default function
   this->outputSize = outputSize;
-  this->hiddenLength = new int[this->hiddenCount];
   for(int i = 0; i < this->hiddenCount; i++){
-    this->hiddenLength[i] = ceil(inputSize * 10.0 / (double) (i + 1));
+    this->hiddenLength.push_back(ceil(inputSize * 10.0 / (double) (i + 1)));
   }
 }
 
 NetworkOptions::~NetworkOptions(){
-  delete[] this->hiddenLength;
 }

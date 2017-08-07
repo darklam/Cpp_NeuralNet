@@ -12,6 +12,7 @@ public:
   ~Network();
   // Takes the input values to the network and returns the outputs
   std::vector<double> feed(std::vector<double>);
+  void train(std::vector<double>, std::vector<double>);
 
 private:
   // The network layers

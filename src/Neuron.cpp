@@ -11,7 +11,7 @@ Neuron::Neuron(int inputs){
   for(int i = 0; i < inputs; i++){
     this->weights.push_back(r.randomDouble());
   }
-  this->learningConstant = 0.01;
+  this->learningConstant = 0.1;
 }
 
 Neuron::~Neuron(){
@@ -29,7 +29,7 @@ double Neuron::feed(std::vector<double> in){  // Feeds the inputs to the neuron
 
 void Neuron::train(std::vector<double> in, double delta){
   for(int i = 0; i < this->inputs; i++){
-    this->weights[i] += in[i] * delta * this->learningConstant;
+    this->weights[i] -= in[i] * delta * this->learningConstant;
   }
   this->wBias += this->bias * delta * this->learningConstant;
 }

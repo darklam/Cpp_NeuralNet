@@ -10,6 +10,15 @@ Layer::Layer(int neurons, int inputs, bool isInput){
   }
 }
 
+int Layer::getNeurons(){
+  return this->count;
+}
+
+std::vector<double> Layer::train(std::vector<double> deltas,
+std::vector<double> inputs){
+
+}
+
 std::vector<double> Layer::feed(std::vector<double> in){
   std::vector<double> out;
   if(!this->isInput){
@@ -24,10 +33,6 @@ std::vector<double> Layer::feed(std::vector<double> in){
     }
   }
   return out;
-}
-
-void Layer::train(){
-  // TODO write this function lol
 }
 
 Layer::~Layer(){

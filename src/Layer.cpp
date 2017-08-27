@@ -45,7 +45,7 @@ std::vector<double> prevActivations){
   std::vector<double> layerDeltas;
   for(int i = 0; i < this->count; i++){
     double sum = 0.0;
-    for(int j = 0; j < nextLayer.size(); i++){
+    for(int j = 0; j < nextLayer.size(); j++){
       sum += nextDeltas[j] * nextLayer[j]->getWeights()[i];
     }
     double neuronDelta = sum * f.sigmoidDerivative(activations[i]);

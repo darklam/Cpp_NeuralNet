@@ -6,11 +6,11 @@
 
 Network::Network(NetworkOptions opts){
   this->opts = new NetworkOptions(&opts);
-  this->input = new Layer(opts.inputSize, 1, true);
-  this->output = new Layer(opts.outputSize, opts.hiddenLength[opts.hiddenCount - 1], false);
-  this->hidden.push_back(new Layer(opts.hiddenLength[0], opts.inputSize, false));
+  this->input = new Layer(opts.inputSize, 1, "input");
+  this->output = new Layer(opts.outputSize, opts.hiddenLength[opts.hiddenCount - 1], "output");
+  this->hidden.push_back(new Layer(opts.hiddenLength[0], opts.inputSize, "hidden"));
   for(int i = 1; i < opts.hiddenCount; i++){
-    this->hidden.push_back(new Layer(opts.hiddenLength[i], opts.hiddenLength[i - 1], false));
+    this->hidden.push_back(new Layer(opts.hiddenLength[i], opts.hiddenLength[i - 1], "hidden"));
   }
 }
 
@@ -23,53 +23,37 @@ Network::~Network(){
   }
 }
 
-std::vector<double> Network::getHiddenOutputs(int index, std::vector<double> in){
-
-}
-
-double Network::getTotalError(std::vector<double> outputs, std::vector<double> target){
-  double out = 0;
-  if(outputs.size() != expected.size()){
-    // This cannot output a negative value therefore any negative value will mean
-    // that there's an error (the output and expected vectors are not equal
-    // in size in this case)
-    return -1;
+void Network::train(std::vector<double> in, std::vector<double> target){
+  std::vector<double> inputLayerOutputs = this->input->feed(in);
+  std::vector<std::vector<double>> hiddenOutputs;
+  for(int i = 0; i < this->opts->hiddenCount; i++){
+    std::vector<double> tmp;
+    if(i == 0){
+      hiddenOutputs.push_back(this->hidden[i]->feed(inputLayerOutputs));
+    }else{
+      hiddenOutputs.push_back(this->hidden[i]->feed(hiddenOutputs[i - 1]));
+    }
   }
-  for(int i = 0; i < outputs.size(); i++){
-    out += pow(tartget[i] - outputs[i], 2);
-  }
-  out /= 2;
-  return out;
-}
-
-std::vector<double> Network::calculateOutputDeltas(double netError, std::vector<double> out,
-std::vector<double> target){
+  std::vector<double> outputLayerOutputs = this->output->feed(
+    hiddenOutputs[hiddenOutputs.size() - 1]
+  );
   std::vector<double> deltas;
-  Functions f;
-  for(int i = 0; i < this->output->getNeurons(); i++){
-    deltas.push_back(
-      (out[i] - target[i]) * f.sigmoidDerivative(out[i]);
-    );
+  deltas = this->output->trainOutput(target, outputLayerOutputs, hiddenOutputs[hiddenOutputs.size() - 1]);
+  for(int i = this->opts->hiddenCount - 1; i >= 0; i--){
+    if(i == this->opts->hiddenCount - 1){
+      deltas = this->hidden[i]->trainHidden(deltas, this->output, hiddenOutputs[i], outputLayerOutputs);
+    }else if(i != 0){
+      deltas = this->hidden[i]->trainHidden(deltas, this->hidden[i + 1], hiddenOutputs[i], hiddenOutputs[i - 1]);
+    }else{
+      deltas = this->hidden[i]->trainHidden(deltas, this->hidden[i + 1], hiddenOutputs[i], inputLayerOutputs);
+    }
   }
-  return deltas;
-}
-
-
-void Network::train(std::vector<double> out, std::vector<double> target){
-  double totalErr = getTotalError(out, target);
-  if(totalErr < 0){
-    // We should implement an actual error logging system but this is just too
-    // early and there are a million other things to fix first
-    return;
-  }
-  // Calculating the deltas for each output neuron
-  std::vector<double> outputDeltas = this->calculateOutputDeltas(totalErr, out, target);
-
 }
 
 std::vector<double> Network::feed(std::vector<double> inp){
   Functions f;
-  std::vector<double> in = f.minMax(inp, this->opts->inputSize, this->opts->min, this->opts->max);
+  // std::vector<double> in = f.minMax(inp, this->opts->inputSize, this->opts->min, this->opts->max);
+  std::vector<double> in = inp;
   std::vector<double> result = this->input->feed(in);
   std::vector<double> temp;
   for(int i = 0; i < this->opts->hiddenCount; i++){

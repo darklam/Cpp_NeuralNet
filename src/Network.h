@@ -23,14 +23,6 @@ private:
   std::vector<Layer *> hidden;
   // The settings of the network
   NetworkOptions *opts;
-  // Calculates the total network error
-  double getTotalError(std::vector<double>, std::vector<double>);
-  // Calculates the deltas for each output neuron
-  // Takes as arguments the total network error, the target values vector
-  // and the output neurons' outputs
-  std::vector<double> calculateOutputDeltas(double, std::vector<double>, std::vector<double>);
-  // Returns the outputs of the hidden layer at the given index
-  std::vector<double> getHiddenOutputs(int, std::vector<double>);
 };
 
 #endif

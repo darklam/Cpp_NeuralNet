@@ -12,11 +12,11 @@ private:
 
 public:
   Neuron(int);  // The constructor that takes the inputs as an argument
-  ~Neuron();    // The object destructor
+  std::vector<double> getWeights();
   double feed(std::vector<double>);  // Returns the result of the neuron
   // The training function. It takes the expected result and the inputs given and
   // it minimizes the error function.
-  void train(std::vector<double>, double);
+  void train(std::vector<double>);
 
 };
 

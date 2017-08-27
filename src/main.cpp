@@ -29,7 +29,7 @@ int main(){
   for(int i = 0; i < res.size(); i++){
     std::cout << res[i] << std::endl;
   }
-  double wtf[] = {0.3};
+  double wtf[] = {0.6};
   for(int i = 0; i < 1000; i++){
     n.train(toVector(lel, 5), toVector(wtf, 1));
   }

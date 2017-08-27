@@ -30,6 +30,6 @@ double Neuron::feed(std::vector<double> in){  // Feeds the inputs to the neuron
 
 void Neuron::train(std::vector<double> deltas){
   for(int i = 0; i < this->inputs; i++){
-    this->weights[i] -= this->learningConstant * deltas[i];
+    this->weights[i] += this->learningConstant * deltas[i];
   }
 }

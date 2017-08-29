@@ -23,7 +23,8 @@ double Neuron::feed(std::vector<double> in){  // Feeds the inputs to the neuron
   for (int i = 0; i < this->inputs; i++){
     sum += this->weights[i] * in[i];    // Producing the weighted sum
   }
-  sum += bias * wBias;                  // Adding the bias to the sum
+  // sum += bias * wBias;                  // Adding the bias to the sum
+  sum += 1.0;
   Functions f;
   return f.sigmoid(sum);                // Returning the output between 0 and 1 using the sigmoid
 }

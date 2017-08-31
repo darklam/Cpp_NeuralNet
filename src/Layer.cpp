@@ -1,5 +1,6 @@
 #include "Layer.h"
 #include <vector>
+#include <omp.h>
 
 Layer::Layer(int neurons, int inputs, std::string type){
   this->count = neurons;
@@ -25,7 +26,7 @@ std::vector<double> prevActivations){
   std::vector<double> layerDeltas;
   for(int i = 0; i < this->count; i++){
     Neuron *current = this->neurons[i];
-    double deltaCurrent = (target[i] - activations[i]) * f.sigmoidDerivative(activations[i]);
+    double deltaCurrent = (activations[i] - target[i]) * f.sigmoidDerivative(activations[i]);
     layerDeltas.push_back(deltaCurrent);
     std::vector<double> deltas;
     for(int j = 0; j < prevActivations.size(); j++){

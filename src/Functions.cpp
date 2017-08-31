@@ -7,7 +7,7 @@ double Functions::sigmoid(double x){
 }
 
 double Functions::sigmoidDerivative(double x){
-  return sigmoid(x) * (1 - sigmoid(x));
+  return this->sigmoid(x) * (1 - this->sigmoid(x));
 }
 
 std::vector<double> Functions::minMax(std::vector<double> in, int length, double min, double max){

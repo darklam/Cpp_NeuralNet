@@ -1,7 +1,9 @@
 #include "NetworkOptions.h"
 #include "Network.h"
+#include "FileManagement.h"
 #include <iostream>
 #include <vector>
+#include <cmath>
 
 std::vector<double> toVector(double *in, int len){
   std::vector<double> out;
@@ -19,41 +21,51 @@ std::vector<int> toVector(int *in, int len){
   return out;
 }
 
+double meanQuadError(std::vector<double> out, std::vector<double> expected){
+  double sum = 0.0;
+  for(int i = 0; i < out.size(); i++){
+    sum += pow(out[i] - expected[i], 2);
+  }
+  sum *= 0.5;
+  return sum;
+}
+
+void printVec(std::vector<double> v){
+  for(int i = 0; i < v.size(); i++){
+    std::cout << v[i] << std::endl;
+  }
+}
 
 
 int main(){
-  int hiddenLenArr[] = {20};
-  NetworkOptions opts(2, 1, 1, toVector(hiddenLenArr, 1));
-  opts.setMinMax(0, 20);
+  FileManager f("data.txt", ' ');
+  f.setInputs(13);
+  f.setOutputs(3);
+  f.openFile();
+  std::vector<std::vector<double>> in = f.getInputs();
+  std::vector<std::vector<double>> out = f.getOutputs();
+  int hiddenLenArr[] = {17};
+  int inputs = 13, hiddenCount = 1, outputs = 3, maxEpoch = 100000;
+  NetworkOptions opts(inputs, outputs, hiddenCount, toVector(hiddenLenArr, hiddenCount));
   Network n(opts);
-  double values[][2] = {
-    {1.0, 1.0},
-    {1.0, 0.0},
-    {0.0, 1.0},
-    {0.0, 0.0}
-  };
-  double correct[][1] = {
-    {1.0},
-    {1.0},
-    {1.0},
-    {0.0}
-  };
-  for(int i = 0; i < 50000; i++){
-    for(int j = 0; j < 4; j++){
-      double *vals = values[j];
-      double *targets = correct[j];
-      std::vector<double> in = toVector(vals, 2);
-      std::vector<double> tar = toVector(targets, 1);
-      n.train(in, tar);
+  double error = 4;
+  int i = 0;
+  int trainSize = (int)(in.size() * 0.3);
+  while(error > 0.001){// for(int i = 0; i < maxEpoch; i++){
+    error = 0.0;
+    for(int j = 0; j < trainSize; j++){
+      n.train(in[j], out[j]);
+      // std::vector<double> res = n.feed(in[j]);
+      // printVec(res);
+      error += meanQuadError(n.feed(in[j]), out[j]);
     }
+    i++;
+    error /= trainSize;
+    if(i % 1000 == 0) std::cout << error << std::endl;
   }
-  for(int i = 0; i < 4; i++){
-    double *vals = values[i];
-    double *targets = correct[i];
-    std::vector<double> in = toVector(vals, 2);
-    std::vector<double> tar = toVector(targets, 1);
-    std::vector<double> out = n.feed(in);
-    std::cout << out[0] << " - Expected: " << tar[0] << std::endl;
-  }
+  // for(int i = 0; i < 100000; i++){
+  //   n.train(in[0], out[0]);
+  // }
+  // printVec(n.feed(in[0]));
   return 0;
 }

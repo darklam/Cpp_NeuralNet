@@ -11,7 +11,7 @@ Neuron::Neuron(int inputs){
   for(int i = 0; i < inputs; i++){
     this->weights.push_back(r.randomDouble());
   }
-  this->learningConstant = 0.1;
+  this->learningConstant = 0.2;
 }
 
 std::vector<double> Neuron::getWeights(){
@@ -24,13 +24,13 @@ double Neuron::feed(std::vector<double> in){  // Feeds the inputs to the neuron
     sum += this->weights[i] * in[i];    // Producing the weighted sum
   }
   // sum += bias * wBias;                  // Adding the bias to the sum
-  sum += 1.0;
+  // sum += 1.0;
   Functions f;
   return f.sigmoid(sum);                // Returning the output between 0 and 1 using the sigmoid
 }
 
 void Neuron::train(std::vector<double> deltas){
   for(int i = 0; i < this->inputs; i++){
-    this->weights[i] += this->learningConstant * deltas[i];
+    this->weights[i] -= this->learningConstant * deltas[i];
   }
 }

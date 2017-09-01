@@ -11,7 +11,8 @@ Neuron::Neuron(int inputs){
   for(int i = 0; i < inputs; i++){
     this->weights.push_back(r.randomDouble());
   }
-  this->learningConstant = 0.2;
+  this->learningConstant = 0.01;
+  this->momentum = 0.3;
 }
 
 std::vector<double> Neuron::getWeights(){
@@ -30,7 +31,15 @@ double Neuron::feed(std::vector<double> in){  // Feeds the inputs to the neuron
 }
 
 void Neuron::train(std::vector<double> deltas){
-  for(int i = 0; i < this->inputs; i++){
-    this->weights[i] -= this->learningConstant * deltas[i];
+  if(this->lastDeltas.empty()){
+    for(int i = 0; i < this->inputs; i++){
+      this->lastDeltas.push_back(this->learningConstant * deltas[i]);
+      this->weights[i] -= this->lastDeltas[i];
+    }
+  }else{
+    for(int i = 0; i < this->inputs; i++){
+      lastDeltas[i] = ((1 - momentum) * deltas[i] * this->learningConstant + momentum * this->lastDeltas[i]);
+      this->weights[i] -= this->lastDeltas[i];
+    }
   }
 }

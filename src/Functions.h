@@ -9,6 +9,7 @@ public:
   double sigmoidDerivative(double);   // The sigmoid function derivative
   double networkError(std::vector<double>, std::vector<double>, int); //Calculates the error of the network
   std::vector<double> minMax(std::vector<double>, int, double, double);
+  void printVector(std::vector<double>);
 };
 
 #endif

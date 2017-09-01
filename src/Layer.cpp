@@ -1,6 +1,6 @@
 #include "Layer.h"
 #include <vector>
-#include <omp.h>
+#include <iostream>
 
 Layer::Layer(int neurons, int inputs, std::string type){
   this->count = neurons;

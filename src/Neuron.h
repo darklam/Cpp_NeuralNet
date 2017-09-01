@@ -5,7 +5,8 @@
 
 class Neuron{
 private:
-  double bias, wBias; // The bias and the weight of the bias
+  double bias, wBias, momentum; // The bias and the weight of the bias
+  std::vector<double> lastDeltas;
   int inputs; // The amount of inputs the neuron takes
   std::vector<double> weights; // The weights of the neuron for each input
   double learningConstant; // Defines how fast or slow the network will train

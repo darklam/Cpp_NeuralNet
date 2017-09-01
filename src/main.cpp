@@ -49,8 +49,9 @@ int main(){
   NetworkOptions opts(inputs, outputs, hiddenCount, toVector(hiddenLenArr, hiddenCount));
   Network n(opts);
   double error = 4;
+  char c;
   int i = 0;
-  int trainSize = (int)(in.size() * 0.3);
+  int trainSize = (int)(in.size() * 0.1);
   while(error > 0.001){// for(int i = 0; i < maxEpoch; i++){
     error = 0.0;
     for(int j = 0; j < trainSize; j++){
@@ -59,9 +60,10 @@ int main(){
       // printVec(res);
       error += meanQuadError(n.feed(in[j]), out[j]);
     }
+
     i++;
     error /= trainSize;
-    if(i % 1000 == 0) std::cout << error << std::endl;
+    std::cout << error << std::endl;
   }
   // for(int i = 0; i < 100000; i++){
   //   n.train(in[0], out[0]);

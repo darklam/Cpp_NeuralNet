@@ -44,7 +44,7 @@ int main(){
   f.openFile();
   std::vector<std::vector<double>> in = f.getInputs();
   std::vector<std::vector<double>> out = f.getOutputs();
-  int hiddenLenArr[] = {17};
+  int hiddenLenArr[] = {50};
   int inputs = 13, hiddenCount = 1, outputs = 3, maxEpoch = 100000;
   NetworkOptions opts(inputs, outputs, hiddenCount, toVector(hiddenLenArr, hiddenCount));
   Network n(opts);

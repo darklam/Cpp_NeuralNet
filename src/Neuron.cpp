@@ -38,7 +38,7 @@ void Neuron::train(std::vector<double> deltas){
     }
   }else{
     for(int i = 0; i < this->inputs; i++){
-      lastDeltas[i] = ((1 - momentum) * deltas[i] * this->learningConstant + momentum * this->lastDeltas[i]);
+      lastDeltas[i] = (deltas[i] * this->learningConstant + momentum * this->lastDeltas[i]);
       this->weights[i] -= this->lastDeltas[i];
     }
   }

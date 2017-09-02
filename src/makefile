@@ -5,7 +5,6 @@ CXX=g++
 FLAGS=-g3 -std=c++11 -Wall -O3
 
 all: $(OBJFILES)
-	echo $(OBJFILES)
 	$(CXX) $(OBJFILES) $(FLAGS) -o prog 
 
 %.o: %.cpp

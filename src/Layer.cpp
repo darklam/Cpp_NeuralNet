@@ -5,9 +5,12 @@
 Layer::Layer(int neurons, int inputs, std::string type){
   this->count = neurons;
   this->inputs = inputs;
+  // if(type == "biased_hidden" || type == "output"){
+  //   this->inputs++;
+  // }
   this->type = type;
   for(int i = 0; i < neurons; i++){
-    this->neurons.push_back(new Neuron(inputs));
+    this->neurons.push_back(new Neuron(this->inputs));
   }
 }
 
@@ -64,11 +67,14 @@ std::vector<double> prevActivations){
 
 
 std::vector<double> Layer::feed(std::vector<double> in){
-  std::vector<double> out;
-  if(!(this->type == "input")){
+  if(this->type != "input"){
+    std::vector<double> out;
     for(int i = 0; i < this->count; i++){
       out.push_back(this->neurons[i]->feed(in));
     }
+    // if(this->type != "output"){
+    //   out.push_back(1.0);
+    // }
     return out;
   }else{
     return in;

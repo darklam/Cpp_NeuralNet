@@ -11,8 +11,8 @@ Neuron::Neuron(int inputs){
   for(int i = 0; i < inputs; i++){
     this->weights.push_back(r.randomDouble());
   }
-  this->learningConstant = 0.01;
-  this->momentum = 0.3;
+  this->learningConstant = 0.03;
+  this->momentum = 0.7;
 }
 
 std::vector<double> Neuron::getWeights(){

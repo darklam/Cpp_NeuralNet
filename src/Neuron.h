@@ -20,5 +20,4 @@ public:
   void train(std::vector<double>);
 
 };
-
 #endif

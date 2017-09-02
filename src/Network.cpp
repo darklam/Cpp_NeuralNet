@@ -38,13 +38,17 @@ void Network::train(std::vector<double> in, std::vector<double> target){
   );
   std::vector<double> deltas;
   deltas = this->output->trainOutput(target, outputLayerOutputs, hiddenOutputs[hiddenOutputs.size() - 1]);
-  for(int i = this->opts->hiddenCount - 1; i >= 0; i--){
-    if(i == this->opts->hiddenCount - 1){
-      deltas = this->hidden[i]->trainHidden(deltas, this->output, hiddenOutputs[i], hiddenOutputs[i - 1]);//outputLayerOutputs);
-    }else if(i != 0){
-      deltas = this->hidden[i]->trainHidden(deltas, this->hidden[i + 1], hiddenOutputs[i], hiddenOutputs[i - 1]);
-    }else{
-      deltas = this->hidden[i]->trainHidden(deltas, this->hidden[i + 1], hiddenOutputs[i], inputLayerOutputs);
+  if(this->opts->hiddenCount == 1){
+    deltas = this->hidden[0]->trainHidden(deltas, this->output, hiddenOutputs[0], inputLayerOutputs);
+  }else{
+    for(int i = this->opts->hiddenCount - 1; i >= 0; i--){
+      if(i == this->opts->hiddenCount - 1){
+        deltas = this->hidden[i]->trainHidden(deltas, this->output, hiddenOutputs[i], hiddenOutputs[i - 1]);
+      }else if(i != 0){
+        deltas = this->hidden[i]->trainHidden(deltas, this->hidden[i + 1], hiddenOutputs[i], hiddenOutputs[i - 1]);
+      }else{
+        deltas = this->hidden[i]->trainHidden(deltas, this->hidden[i + 1], hiddenOutputs[i], inputLayerOutputs);
+      }
     }
   }
 }

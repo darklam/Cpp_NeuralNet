@@ -39,16 +39,18 @@ void printVec(std::vector<double> v){
 
 int main(){
   FileManager f("data.txt", ' ');
+  Functions func;
   f.setInputs(13);
   f.setOutputs(3);
   f.openFile();
   std::vector<std::vector<double>> in = f.getInputs();
   std::vector<std::vector<double>> out = f.getOutputs();
-  int hiddenLenArr[] = {30, 15};
-  int inputs = 13, hiddenCount = 2, outputs = 3, maxEpoch = 10000;
+  int hiddenLenArr[] = {17};
+  int inputs = 13, hiddenCount = 1, outputs = 3, maxEpoch = 10000;
   NetworkOptions opts(inputs, outputs, hiddenCount, toVector(hiddenLenArr, hiddenCount));
   Network n(opts);
   double error = 4;
+  double lowest = 100;
   char c;
   int i = 0;
   int trainSize = (int)(in.size() * 0.4);
@@ -64,7 +66,13 @@ int main(){
 
     i++;
     error /= trainSize;
-    std::cout << error << std::endl;
+    if(error < lowest) lowest = error;
+    // std::cout << error << std::endl;
+  }
+  std::cout << "lowest error: " << lowest << std::endl;
+  for(int i = 0; i < trainSize; i++){
+    func.printVector(n.feed(in[i]));
+    func.printVector(out[i]);
   }
   // for(int i = 0; i < 100000; i++){
   //   n.train(in[0], out[0]);

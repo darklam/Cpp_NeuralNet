@@ -45,8 +45,8 @@ int main(){
   f.openFile();
   std::vector<std::vector<double>> in = f.getInputs();
   std::vector<std::vector<double>> out = f.getOutputs();
-  int hiddenLenArr[] = {40, 10, 5};
-  int inputs = 13, hiddenCount = 3, outputs = 3, maxEpoch = 10000;
+  int hiddenLenArr[] = {50, 100};
+  int inputs = 13, hiddenCount = 2, outputs = 3, maxEpoch = 10000;
   NetworkOptions opts(inputs, outputs, hiddenCount, toVector(hiddenLenArr, hiddenCount));
   Network n(opts);
   double error = 4;
@@ -54,7 +54,7 @@ int main(){
   char c;
   int i = 0;
   int trainSize = (int)(in.size() * 0.4);
-  while(error > 0.001){
+  while(error > 0.01){
   // for(int i = 0; i < maxEpoch; i++){
     error = 0.0;
     for(int j = 0; j < trainSize; j++){

@@ -5,22 +5,6 @@
 #include <vector>
 #include <cmath>
 
-std::vector<double> toVector(double *in, int len){
-  std::vector<double> out;
-  for(int i = 0; i < len; i++){
-    out.push_back(in[i]);
-  }
-  return out;
-}
-
-std::vector<int> toVector(int *in, int len){
-  std::vector<int> out;
-  for(int i = 0; i < len; i++){
-    out.push_back(in[i]);
-  }
-  return out;
-}
-
 double meanQuadError(std::vector<double> out, std::vector<double> expected){
   double sum = 0.0;
   for(int i = 0; i < out.size(); i++){
@@ -45,16 +29,16 @@ int main(){
   f.openFile();
   std::vector<std::vector<double>> in = f.getInputs();
   std::vector<std::vector<double>> out = f.getOutputs();
-  int hiddenLenArr[] = {50, 100};
-  int inputs = 13, hiddenCount = 2, outputs = 3, maxEpoch = 10000;
-  NetworkOptions opts(inputs, outputs, hiddenCount, toVector(hiddenLenArr, hiddenCount));
+  std::vector<int> hiddenLenArr = {600};
+  int inputs = 13, hiddenCount = 1, outputs = 3, maxEpoch = 10000;
+  NetworkOptions opts(inputs, outputs, hiddenCount, hiddenLenArr);
   Network n(opts);
   double error = 4;
   double lowest = 100;
   char c;
   int i = 0;
-  int trainSize = (int)(in.size() * 0.4);
-  while(error > 0.01){
+  int trainSize = (int)(in.size() * 0.5);
+  while(error > 0.001){
   // for(int i = 0; i < maxEpoch; i++){
     error = 0.0;
     for(int j = 0; j < trainSize; j++){

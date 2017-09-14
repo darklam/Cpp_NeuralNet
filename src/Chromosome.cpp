@@ -39,6 +39,10 @@ void Chromosome::copy(Chromosome *c){
   }
 }
 
+std::vector<double> Chromosome::getGenes(){
+  return this->genes;
+}
+
 double Chromosome::getGene(int index){
   return this->genes[index];
 }

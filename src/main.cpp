@@ -13,12 +13,12 @@ int main(){
   f.openFile();
   std::vector<std::vector<double>> in = f.getInputs();
   std::vector<std::vector<double>> out = f.getOutputs();
-  std::vector<int> hiddenLenArr = {50};
-  int inputs = 13, hiddenCount = 1, outputs = 3, maxEpoch = 10000;
+  std::vector<int> hiddenLenArr = {5, 10};
+  int inputs = 13, hiddenCount = 2, outputs = 3, maxEpoch = 10000;
   NetworkOptions opts(inputs, outputs, hiddenCount, hiddenLenArr);
   Network n(opts);
-  double min = -1.0, max = 1.0, mutation = 0.2, cross = 0.4, elitism = 0.2;
-  int length = n.getWeightCount(), populationSize = 100, maxGen = 1000;
+  double min = -3, max = 3, mutation = 0.2, cross = 0.2, elitism = 0.1;
+  int length = n.getWeightCount(), populationSize = 1000, maxGen = 1000000;
   Population lol(
     populationSize, length, maxGen, elitism, cross, mutation, min, max,
     &n, in, out

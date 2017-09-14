@@ -129,7 +129,7 @@ bool Population::nextGen(){
     nextGeneration.push_back(new Chromosome(best));
     for(int j = 1; j < elite; j++){
       max = -1;
-      int bestCurrent;
+      int bestCurrent = 0;
       for(int i = 0; i < this->fitnesses.size(); i++){
         double current = this->fitnesses[i];
         if(current > max && current < prevMax){
@@ -137,6 +137,7 @@ bool Population::nextGen(){
           bestCurrent = i;
         }
       }
+      prevMax = max;
       nextGeneration.push_back(new Chromosome(this->chromosomes[bestCurrent]));
     }
     for(int i = elite; i < this->chromosomes.size(); i++){

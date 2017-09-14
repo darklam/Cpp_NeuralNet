@@ -37,6 +37,10 @@ Network *n, std::vector<std::vector<double>> inputs, std::vector<std::vector<dou
   }
 }
 
+double Population::getBestFitness(){
+  return this->best->getFitness(this->in, this->out, this->n);
+}
+
 Chromosome *Population::getBest(){
   return this->best;
 }
@@ -66,7 +70,7 @@ void Population::printStats(){
   }
   avg /= this->chromosomes.size();
   std::cout << "Generation #" << this->currentGen << " - Average fitness: "
-  << avg << std::endl;
+  << avg << " - Best fitness: " << this->getBestFitness() << std::endl;
 }
 
 Population::~Population(){

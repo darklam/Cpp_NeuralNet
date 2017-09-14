@@ -24,5 +24,6 @@ public:
   bool nextGen();
   void printStats();
   Chromosome *getBest();
+  double getBestFitness();
 };
 #endif

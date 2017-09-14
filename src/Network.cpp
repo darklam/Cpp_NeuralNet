@@ -53,6 +53,58 @@ void Network::train(std::vector<double> in, std::vector<double> target){
   }
 }
 
+void Network::loadFromVector(std::vector<double> w){
+  Layer *currentLayer;
+  int count = 0;
+  std::vector<double> weights;
+  int inp;
+  for(int k = 0; k < this->hidden.size(); k++){
+    currentLayer = this->hidden[k];
+    inp = currentLayer->getInputCount();
+    for(int i = 0; i < currentLayer->getNeuronCount(); i++){
+      Neuron *current = currentLayer->getNeurons()[i];
+      for(int j = 0; j < inp; j++){
+        weights.push_back(w[count++]);
+      }
+      current->setWeights(weights);
+      weights.clear();
+    }
+  }
+  currentLayer = this->output;
+  inp = currentLayer->getInputCount();
+  for(int i = 0; i < currentLayer->getNeuronCount(); i++){
+    Neuron *current = currentLayer->getNeurons()[i];
+    for(int j = 0; j < inp; j++){
+      weights.push_back(w[count++]);
+    }
+    current->setWeights(weights);
+    weights.clear();
+  }
+}
+
+int Network::getWeightCount(){
+  int count = 0;
+  Layer *current;
+  for(int i = 0; i < this->hidden.size(); i++){
+    current = this->hidden[i];
+    count += current->getNeuronCount() * current->getInputCount();
+  }
+  current = this->output;
+  count += current->getNeuronCount() * current->getInputCount();
+  return count;
+}
+
+double Network::getNetworkError(std::vector<std::vector<double>> inputs,
+std::vector<std::vector<double>> out){
+  Functions f;
+  double err = 0.0;
+  for(int i = 0; i < out.size(); i++){
+    err += f.networkError(this->feed(inputs[i]), out[i]);
+  }
+  err /= out.size();
+  return err;
+}
+
 std::vector<double> Network::feed(std::vector<double> inp){
   Functions f;
   // std::vector<double> in = f.minMax(inp, this->opts->inputSize, this->opts->min, this->opts->max);

@@ -20,9 +20,9 @@ std::vector<double> Functions::minMax(std::vector<double> in, int length, double
   return res;
 }
 
-double Functions::networkError(std::vector<double> out, std::vector<double> target, int count){
+double Functions::networkError(std::vector<double> out, std::vector<double> target){
   double sum = 0.0;
-  for (int i = 0; i < count; i++){
+  for (int i = 0; i < out.size(); i++){
     sum += pow(target[i] - out[i], 2);
   }
   return 0.5 * sum;

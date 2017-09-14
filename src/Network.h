@@ -15,6 +15,10 @@ public:
   // The training function takes the inputs and the expected outputs as arguments
   // and trains the network
   void train(std::vector<double>, std::vector<double>);
+  void loadFromVector(std::vector<double>);
+  int getWeightCount();
+  double getNetworkError(std::vector<std::vector<double>>,
+                        std::vector<std::vector<double>>);
 
 private:
   // The network layers

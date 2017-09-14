@@ -18,6 +18,8 @@ public:
   // The training function. It takes the expected result and the inputs given and
   // it minimizes the error function.
   void train(std::vector<double>);
+  // Sets the weights to the given vector
+  void setWeights(std::vector<double>);
 
 };
 #endif

@@ -22,6 +22,10 @@ std::vector<Neuron *> Layer::getNeurons(){
   return this->neurons;
 }
 
+int Layer::getInputCount(){
+  return this->inputs;
+}
+
 std::vector<double> Layer::trainOutput(std::vector<double> target,
 std::vector<double> activations,
 std::vector<double> prevActivations){

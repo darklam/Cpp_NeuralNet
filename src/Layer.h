@@ -30,6 +30,8 @@ public:
   // layer's activations and the previous layer's activations
   std::vector<double> trainHidden(std::vector<double>, Layer *, std::vector<double>,
                                   std::vector<double>);
+  // Returns the number of inputs each neuron takes
+  int getInputCount();
 
 private:
   // The layer's neurons

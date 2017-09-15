@@ -22,6 +22,7 @@ std::vector<double> Functions::minMax(std::vector<double> in, int length, double
 
 double Functions::networkError(std::vector<double> out, std::vector<double> target){
   double sum = 0.0;
+  #pragma omp parallel for reduction(+:sum)
   for (int i = 0; i < out.size(); i++){
     sum += pow(target[i] - out[i], 2);
   }

@@ -18,7 +18,7 @@ int main(){
   NetworkOptions opts(inputs, outputs, hiddenCount, hiddenLenArr);
   Network n(opts);
   double min = -3, max = 3, mutation = 0.2, cross = 0.2, elitism = 0.1;
-  int length = n.getWeightCount(), populationSize = 1000, maxGen = 1000000;
+  int length = n.getWeightCount(), populationSize = 10000, maxGen = 100;
   Population lol(
     populationSize, length, maxGen, elitism, cross, mutation, min, max,
     &n, in, out

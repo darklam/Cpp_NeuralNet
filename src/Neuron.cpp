@@ -46,6 +46,7 @@ void Neuron::train(std::vector<double> deltas){
 
 void Neuron::setWeights(std::vector<double> newWeights){
   if(newWeights.size() == this->inputs){
+    #pragma omp parallel for
     for(int i = 0; i < this->inputs; i++){
       this->weights[i] = newWeights[i];
     }

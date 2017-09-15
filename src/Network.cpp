@@ -98,6 +98,7 @@ double Network::getNetworkError(std::vector<std::vector<double>> inputs,
 std::vector<std::vector<double>> out){
   Functions f;
   double err = 0.0;
+  #pragma omp parallel for reduction(+:err)
   for(int i = 0; i < out.size(); i++){
     err += f.networkError(this->feed(inputs[i]), out[i]);
   }

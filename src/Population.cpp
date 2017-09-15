@@ -47,6 +47,7 @@ Chromosome *Population::getBest(){
 
 void Population::calculateFitnesses(){
   double sum = 0.0;
+  // #pragma omp parallel for reduction(+:sum)
   for(int i = 0; i < this->chromosomes.size(); i++){
     this->fitnesses[i] = this->chromosomes[i]->getFitness(this->in, this->out, this->n);
     sum += this->fitnesses[i] / sum;
@@ -65,6 +66,7 @@ void Population::calculateFitnesses(){
 
 void Population::printStats(){
   double avg = 0.0;
+  #pragma omp parallel for reduction(+:avg)
   for(int i = 0; i < this->chromosomes.size(); i++){
     avg += this->fitnesses[i];
   }
@@ -81,6 +83,7 @@ Population::~Population(){
 
 void Population::cross(){
   RandomGen r;
+  #pragma omp prarallel for
   for(int i = 0; i < this->chromosomes.size() - 1; i++){
     if(r.randomDouble() < this->crossChance){
       int n = this->chromosomes[0]->getSize();

@@ -9,8 +9,9 @@ Layer::Layer(int neurons, int inputs, std::string type){
     this->inputs++;
   }
   this->type = type;
+  this->neurons.resize(neurons);
   for(int i = 0; i < neurons; i++){
-    this->neurons.push_back(new Neuron(this->inputs));
+    this->neurons[i] = new Neuron(this->inputs);
   }
 }
 
@@ -27,10 +28,12 @@ std::vector<double> activations,
 std::vector<double> prevActivations){
   Functions f;
   std::vector<double> layerDeltas;
+  layerDeltas.resize(this->count);
+  #pragma omp parallel for
   for(int i = 0; i < this->count; i++){
     Neuron *current = this->neurons[i];
     double deltaCurrent = (activations[i] - target[i]) * f.sigmoidDerivative(activations[i]);
-    layerDeltas.push_back(deltaCurrent);
+    layerDeltas[i] = deltaCurrent;
     std::vector<double> deltas;
     for(int j = 0; j < prevActivations.size(); j++){
       deltas.push_back(prevActivations[j] * deltaCurrent);
@@ -47,13 +50,15 @@ std::vector<double> prevActivations){
   Functions f;
   std::vector<Neuron *> nextLayer = next->getNeurons();
   std::vector<double> layerDeltas;
+  layerDeltas.resize(this->count);
+  #pragma omp parallel for
   for(int i = 0; i < this->count; i++){
     double sum = 0.0;
     for(int j = 0; j < nextLayer.size(); j++){
       sum += nextDeltas[j] * nextLayer[j]->getWeights()[i];
     }
     double neuronDelta = sum * f.sigmoidDerivative(activations[i]);
-    layerDeltas.push_back(neuronDelta);
+    layerDeltas[i] = neuronDelta;
     Neuron *current = this->neurons[i];
     std::vector<double> neuronDeltas;
     for(int j = 0; j < prevActivations.size(); j++){
@@ -69,8 +74,10 @@ std::vector<double> prevActivations){
 std::vector<double> Layer::feed(std::vector<double> in){
   if(this->type != "input"){
     std::vector<double> out;
+    out.resize(this->count);
+    #pragma omp parallel for
     for(int i = 0; i < this->count; i++){
-      out.push_back(this->neurons[i]->feed(in));
+      out[i] = this->neurons[i]->feed(in);
     }
     if(this->type != "output"){
       out.push_back(1.0);

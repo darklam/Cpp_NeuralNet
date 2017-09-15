@@ -37,6 +37,7 @@ void Neuron::train(std::vector<double> deltas){
       this->weights[i] -= this->lastDeltas[i];
     }
   }else{
+    // #pragma omp parallel for
     for(int i = 0; i < this->inputs; i++){
       lastDeltas[i] = ((1.0 - momentum) * deltas[i] * this->learningConstant + momentum * this->lastDeltas[i]);
       this->weights[i] -= this->lastDeltas[i];

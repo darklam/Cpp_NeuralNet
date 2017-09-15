@@ -7,6 +7,7 @@
 
 double meanQuadError(std::vector<double> out, std::vector<double> expected){
   double sum = 0.0;
+  #pragma omp parallel for reduction(+:sum)
   for(int i = 0; i < out.size(); i++){
     sum += pow(out[i] - expected[i], 2);
   }
@@ -29,7 +30,7 @@ int main(){
   f.openFile();
   std::vector<std::vector<double>> in = f.getInputs();
   std::vector<std::vector<double>> out = f.getOutputs();
-  std::vector<int> hiddenLenArr = {600};
+  std::vector<int> hiddenLenArr = {1000};
   int inputs = 13, hiddenCount = 1, outputs = 3, maxEpoch = 10000;
   NetworkOptions opts(inputs, outputs, hiddenCount, hiddenLenArr);
   Network n(opts);
@@ -38,7 +39,7 @@ int main(){
   char c;
   int i = 0;
   int trainSize = (int)(in.size() * 0.5);
-  while(error > 0.001){
+  while(error > 0.0001){
   // for(int i = 0; i < maxEpoch; i++){
     error = 0.0;
     for(int j = 0; j < trainSize; j++){
